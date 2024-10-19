@@ -1,3 +1,69 @@
 {% extends "myapp/index.html" %}
 
 {% block title %}Listar Colaboradores{% endblock title %}
+
+{% block content %}
+
+<div class="container justify-content-center mt-4">
+    <div class="card-body">
+        <div class="card my_class" style="max-width: 500px; margin: auto;">
+            <form method="post">
+                {% csrf_token %}
+                <label for="Colaborador">Colaborador</label>
+                <div class="form-group">
+                    <select class="form-control" name="colaborador">
+                      {% for colaborador in colaboradores %}
+                      <option value="{{ colaborador }}">{{ colaborador }}</option>
+                      {% endfor %}
+                    </select>
+                </div>
+                <input class="btn btn-success" type="submit" value="enviar">
+            </form>
+        </div>
+    </div>
+</div>
+{%if colaborador%}
+    <div class="container mt-3">
+      <table class="table">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>equipamento</th>
+            <th>colaborador</th>
+            <th>data emprestimo</th>
+            <th>data prevista devolução</th>
+            <th>Status</th>
+            <th>condicoes equipamento</th>
+            <th>data de devolução</th>
+            <th>Observação</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%for emprestimos in emprestimo%}
+            {%if emprestimos.colaborador == colaborador.nome%}
+            <tr>
+            <td>{{emprestimos.id}}</td>
+            <td>{{emprestimos.equipamento.nome}}</td>
+            <td>{{emprestimos.colaborador.nome}}</td>
+            <td>{{emprestimos.data_emprestimo}}</td>
+            <td>{{emprestimos.data_prevista_devolução}}</td>
+            <td>{{emprestimos.status}}</td>
+            <td>{{emprestimos.condicoes_equipamento}}</td>
+            <td>{{emprestimos.data_devolução}}</td>
+            <td>{{emprestimos.observação}}</td>
+            <td>
+              <a class = "btn btn-danger" href="/deletarEPI/{{epis.id}}">Deletar</a>
+              <a class = "btn btn-warning" href="/atualizarEPI/{{epis.id}}">Atualizar</a>
+            </td>
+            </tr>
+            {%endif%}
+          {%endfor%}
+        {%else%}
+        <p><h3>Não existem colaboradores cadastrados</p>
+        {%endif%}
+          </table>
+        </tbody>
+      </table>
+
+{% endblock content %}

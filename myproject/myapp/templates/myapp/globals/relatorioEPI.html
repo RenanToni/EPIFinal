@@ -13,8 +13,43 @@
 </head>
 <body>
 
+<div class="container justify-content-center mt-4">
+    <div class="card-body">
+        <div class="card my_class" style="max-width: 500px; margin: auto;">
+            <form method="post">
+                {% csrf_token %}
+                <label for="EPI">Equipameto</label>
+                <div class="form-group">
+                    <select class="form-control" name="equipamento">
+                      {% for epi in epis %}
+                      <option value="{{ epi }}">{{ epi }}</option>
+                      {% endfor %}
+                    </select>
+                </div>
+                <label for="Colaborador">Colaborador</label>
+                <div class="form-group">
+                    <select class="form-control" name="colaborador">
+                      {% for colaborador in colaboradores %}
+                      <option value="{{ colaborador }}">{{ colaborador }}</option>
+                      {% endfor %}
+                    </select>
+                </div>
+                <label for="status">Status</label>
+                <div class="form-group">
+                    <select class="form-control" name="status">    
+                        <option value="emprestado" selected>Emprestado</option>
+                        <option value="em uso">Em uso</option>
+                        <option value="fornecido">fornecido</option>
+                        <option value="devolvido">devolvido</option>
+                        <option value="danificado">danificado</option>
+                        <option value="perdido">perdido</option>
+                    </select>
+                </div>
+                <input class="btn btn-success" type="submit" value="enviar">
+
 <div class="container mt-3">
-  {%if EPI%}
+  {%if epis and colaboradores%}
+  {%if status and equipamento and colaborador%}
     <table class="table">
       <thead class="table-dark">
         <tr>
@@ -31,30 +66,286 @@
         </tr>
       </thead>
       <tbody>
-        {%for epis in EPI%}  
+        {%for emprestimos in emprestimo%}
+          {%if emprestimos.status == status and emprestimos.equipamento == equipamento and emprestimos.colaborador.id == colaborador.id%}  
           <tr>
-          <td>{{epis.id}}</td>
-          <td>{{epis.equipamento}}</td>
-          <td>{{epis.colaborador}}</td>
-          <td>{{epis.data_emprestimo}}</td>
-          <td>{{epis.data_prevista_devolução}}</td>
-          <td>{{epis.status}}</td>
-          <td>{{epis.condicoes_equipamento}}</td>
-          <td>{{epis.data_devolução}}</td>
-          <td>{{epis.observação}}</td>
+          <td>{{emprestimos.id}}</td>
+          <td>{{emprestimos.equipamento.nome}}</td>
+          <td>{{emprestimos.colaborador.nome.id}}</td>
+          <td>{{emprestimos.data_emprestimo}}</td>
+          <td>{{emprestimos.data_prevista_devolução}}</td>
+          <td>{{emprestimos.status}}</td>
+          <td>{{emprestimos.condicoes_equipamento}}</td>
+          <td>{{emprestimos.data_devolução}}</td>
+          <td>{{emprestimos.observação}}</td>
           <td>
             <a class = "btn btn-danger" href="/deletarEPI/{{epis.id}}">Deletar</a>
             <a class = "btn btn-warning" href="/atualizarEPI/{{epis.id}}">Atualizar</a>
           </td>
           </tr>
+          {%endif%}
         {%endfor%}
+        
         </table>
       </tbody>
     </table>
+    
+    <div class="container mt-3">
+      {%if status and equipamento %}
+        <table class="table">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>equipamento</th>
+              <th>colaborador</th>
+              <th>data emprestimo</th>
+              <th>data prevista devolução</th>
+              <th>Status</th>
+              <th>condicoes equipamento</th>
+              <th>data de devolução</th>
+              <th>Observação</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%for emprestimos in emprestimo%}
+              {%if emprestimos.status == status and emprestimos.equipamento == equipamento%}  
+              <tr>
+              <td>{{emprestimos.id}}</td>
+              <td>{{emprestimos.equipamento.nome}}</td>
+              <td>{{emprestimos.colaborador.nome}}</td>
+              <td>{{emprestimos.data_emprestimo}}</td>
+              <td>{{emprestimos.data_prevista_devolução}}</td>
+              <td>{{emprestimos.status}}</td>
+              <td>{{emprestimos.condicoes_equipamento}}</td>
+              <td>{{emprestimos.data_devolução}}</td>
+              <td>{{emprestimos.observação}}</td>
+              <td>
+                <a class = "btn btn-danger" href="/deletarEPI/{{epis.id}}">Deletar</a>
+                <a class = "btn btn-warning" href="/atualizarEPI/{{epis.id}}">Atualizar</a>
+              </td>
+              </tr>
+              {%endif%}
+              {%endfor%}
+              {%endif%}
+            </table>
+          </tbody>
+        </table>
+        
+        <div class="container mt-3">
+            <table class="table">
+              <thead class="table-dark">
+                <tr>
+                  <th>ID</th>
+                  <th>equipamento</th>
+                  <th>colaborador</th>
+                  <th>data emprestimo</th>
+                  <th>data prevista devolução</th>
+                  <th>Status</th>
+                  <th>condicoes equipamento</th>
+                  <th>data de devolução</th>
+                  <th>Observação</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%for emprestimos in emprestimo%}
+                  {%if emprestimos.equipamento == equipamento and emprestimos.colaborador.id == colaborador.id%}  
+                  <tr>
+                  <td>{{emprestimos.id}}</td>
+                  <td>{{emprestimos.equipamento.nome}}</td>
+                  <td>{{emprestimos.colaborador.nome}}</td>
+                  <td>{{emprestimos.data_emprestimo}}</td>
+                  <td>{{emprestimos.data_prevista_devolução}}</td>
+                  <td>{{emprestimos.status}}</td>
+                  <td>{{emprestimos.condicoes_equipamento}}</td>
+                  <td>{{emprestimos.data_devolução}}</td>
+                  <td>{{emprestimos.observação}}</td>
+                  <td>
+                    <a class = "btn btn-danger" href="/deletarEPI/{{epis.id}}">Deletar</a>
+                    <a class = "btn btn-warning" href="/atualizarEPI/{{epis.id}}">Atualizar</a>
+                  </td>
+                  </tr>
+                  {%endif%}
+                  {%endfor%}
+                  {%endif%}
+                </table>
+              </tbody>
+            </table>
+            
+            <div class="container mt-3">
+              {%if status and colaborador%}
+                <table class="table">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>ID</th>
+                      <th>equipamento</th>
+                      <th>colaborador</th>
+                      <th>data emprestimo</th>
+                      <th>data prevista devolução</th>
+                      <th>Status</th>
+                      <th>condicoes equipamento</th>
+                      <th>data de devolução</th>
+                      <th>Observação</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {%for emprestimos in emprestimo%}
+                      {%if emprestimos.status == status and emprestimos.colaborador.id == colaborador.id%}  
+                      <tr>
+                      <td>{{emprestimos.id}}</td>
+                      <td>{{emprestimos.equipamento.nome}}</td>
+                      <td>{{emprestimos.colaborador.nome}}</td>
+                      <td>{{emprestimos.data_emprestimo}}</td>
+                      <td>{{emprestimos.data_prevista_devolução}}</td>
+                      <td>{{emprestimos.status}}</td>
+                      <td>{{emprestimos.condicoes_equipamento}}</td>
+                      <td>{{emprestimos.data_devolução}}</td>
+                      <td>{{emprestimos.observação}}</td>
+                      <td>
+                        <a class = "btn btn-danger" href="/deletarEPI/{{epis.id}}">Deletar</a>
+                        <a class = "btn btn-warning" href="/atualizarEPI/{{epis.id}}">Atualizar</a>
+                      </td>
+                      </tr>
+                      {%endif%}
+                      {%endfor%}
+                      {%endif%}
+                    </table>
+                  </tbody>
+                </table>
+
+                <div class="container mt-3">
+                  {%if status%}
+                    <table class="table">
+                      <thead class="table-dark">
+                        <tr>
+                          <th>ID</th>
+                          <th>equipamento</th>
+                          <th>colaborador</th>
+                          <th>data emprestimo</th>
+                          <th>data prevista devolução</th>
+                          <th>Status</th>
+                          <th>condicoes equipamento</th>
+                          <th>data de devolução</th>
+                          <th>Observação</th>
+                          <th>Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {%for emprestimos in emprestimo%}
+                          {%if emprestimos.status == status %}  
+                          <tr>
+                          <td>{{emprestimos.id}}</td>
+                          <td>{{emprestimos.equipamento.nome}}</td>
+                          <td>{{emprestimos.colaborador.nome}}</td>
+                          <td>{{emprestimos.data_emprestimo}}</td>
+                          <td>{{emprestimos.data_prevista_devolução}}</td>
+                          <td>{{emprestimos.status}}</td>
+                          <td>{{emprestimos.condicoes_equipamento}}</td>
+                          <td>{{emprestimos.data_devolução}}</td>
+                          <td>{{emprestimos.observação}}</td>
+                          <td>
+                            <a class = "btn btn-danger" href="/deletarEPI/{{epis.id}}">Deletar</a>
+                            <a class = "btn btn-warning" href="/atualizarEPI/{{epis.id}}">Atualizar</a>
+                          </td>
+                          </tr>
+                          {%endif%}
+                          {%endfor%}
+                          {%endif%}
+                        </table>
+                      </tbody>
+                    </table>
+                    
+                    <div class="container mt-3">
+                      {%if equipamento%}
+                        <table class="table">
+                          <thead class="table-dark">
+                            <tr>
+                              <th>ID</th>
+                              <th>equipamento</th>
+                              <th>colaborador</th>
+                              <th>data emprestimo</th>
+                              <th>data prevista devolução</th>
+                              <th>Status</th>
+                              <th>condicoes equipamento</th>
+                              <th>data de devolução</th>
+                              <th>Observação</th>
+                              <th>Ações</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {%for emprestimos in emprestimo%}
+                              {%if  emprestimos.equipamento == equipamento%}  
+                              <tr>
+                              <td>{{emprestimos.id}}</td>
+                              <td>{{emprestimos.equipamento.nome}}</td>
+                              <td>{{emprestimos.colaborador.nome}}</td>
+                              <td>{{emprestimos.data_emprestimo}}</td>
+                              <td>{{emprestimos.data_prevista_devolução}}</td>
+                              <td>{{emprestimos.status}}</td>
+                              <td>{{emprestimos.condicoes_equipamento}}</td>
+                              <td>{{emprestimos.data_devolução}}</td>
+                              <td>{{emprestimos.observação}}</td>
+                              <td>
+                                <a class = "btn btn-danger" href="/deletarEPI/{{epis.id}}">Deletar</a>
+                                <a class = "btn btn-warning" href="/atualizarEPI/{{epis.id}}">Atualizar</a>
+                              </td>
+                              </tr>
+                              {%endif%}
+                              {%endfor%}
+                              {%endif%}
+                            </table>
+                          </tbody>
+                        </table>
+                        
+                        <div class="container mt-3">
+                          {%if colaborador%}
+                            <table class="table">
+                              <thead class="table-dark">
+                                <tr>
+                                  <th>ID</th>
+                                  <th>equipamento</th>
+                                  <th>colaborador</th>
+                                  <th>data emprestimo</th>
+                                  <th>data prevista devolução</th>
+                                  <th>Status</th>
+                                  <th>condicoes equipamento</th>
+                                  <th>data de devolução</th>
+                                  <th>Observação</th>
+                                  <th>Ações</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {%for emprestimos in emprestimo%}
+                                  {%if emprestimos.colaborador.id == colaborador.id%}  
+                                  <tr>
+                                  <td>{{emprestimos.id}}</td>
+                                  <td>{{emprestimos.equipamento.nome}}</td>
+                                  <td>{{emprestimos.colaborador.nome}}</td>
+                                  <td>{{emprestimos.data_emprestimo}}</td>
+                                  <td>{{emprestimos.data_prevista_devolução}}</td>
+                                  <td>{{emprestimos.status}}</td>
+                                  <td>{{emprestimos.condicoes_equipamento}}</td>
+                                  <td>{{emprestimos.data_devolução}}</td>
+                                  <td>{{emprestimos.observação}}</td>
+                                  <td>
+                                    <a class = "btn btn-danger" href="/deletarEPI/{{epis.id}}">Deletar</a>
+                                    <a class = "btn btn-warning" href="/atualizarEPI/{{epis.id}}">Atualizar</a>
+                                  </td>
+                                  </tr>
+                                  {%endif%}
+                                  {%endfor%}
+                                  
+                                </table>
+                              </tbody>
+                            </table>
+                            {%endif%}
+                            
+                
     {%else%}
       <p><h3>Não existem emprestimos cadastrados</h3></p>
     {%endif%}
-
 
 </div>
 

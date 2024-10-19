@@ -78,6 +78,7 @@ def cadastrarEPI(request):
 def registrar(request):
     colaboradores = Colaborador.objects.all()
     epis = EPIgenerico.objects.all()
+    
     if request.method == 'POST':
         equipamento = EPIgenerico.objects.get(nome=request.POST.get('equipamento'))
         colaborador = Colaborador.objects.get(nome=request.POST.get('colaborador'))
@@ -86,32 +87,53 @@ def registrar(request):
         status = request.POST.get('status')
         condicoes = request.POST.get('condicoes_equipamento')
         data_devolucao = request.POST.get('data_devolucao')
-        observacao = request.POST.get('observacao')
+        observacao = request.POST.get('motivo_devolucao')
 
-        print(equipamento,colaborador, data_emprestimo, data_prevista, status, condicoes, data_devolucao, observacao)
-
+        print(equipamento, colaborador, data_emprestimo, data_prevista, status, condicoes, data_devolucao, observacao)
+    
+        print(equipamento.id, colaborador.id)
+        
         
         if equipamento and colaborador and data_emprestimo and data_prevista and status and condicoes and data_devolucao and observacao:
             Emprestimo.objects.create(
-                equipamento = equipamento,
-                id_colaborador =  colaborador,
+                id_EPIgenerico_fk = equipamento.id,
+                id_colaborador_fk = colaborador.id,
                 data_emprestimo = data_emprestimo,
-                data_prevista = data_prevista,
+                data_prevista_devolução = data_prevista,
                 status = status,
                 condicoes = condicoes,
-                data_devolucao = data_devolucao,
-                motivo_devolução= observacao,
+                data_devolução = data_devolucao,
+                motivo_devolução = observacao
             )
+        
+
             return redirect('/')
-    return render(request, 'myapp/globals/registrar.html', {"colaboradores":colaboradores}, {"epis":epis})
+    return render(request, 'myapp/globals/registrar.html', {"colaboradores":colaboradores, "epis":epis})
 
 def relatorioEPI(request):
     coladores = Colaborador.objects.all()
     epis = EPIgenerico.objects.all()
-    return render(request, 'myapp/globals/relatorioEPI.html')
+    emprestimo = Emprestimo.objects.all()
+
+    print (coladores, epis, emprestimo)
+
+    if request.method == 'POST':
+        colaborador = Colaborador.objects.get(id=request.POST.get('colaborador'))
+        epi = EPIgenerico.objects.get(id=request.POST.get('epi'))
+        status = request.POST.get('status')
+        return render(request, 'myapp/globals/relatorioEPI.html', {"emprestimo":emprestimo, "colaboradores":coladores, "epis":epis, "colaborador":colaborador, "epi":epi, "status":status})
+
+    return render(request, 'myapp/globals/relatorioEPI.html', {"emprestimo":emprestimo, "colaboradores":coladores, "epis":epis})
 
 def relatorioColaborador(request):
-    return render(request, 'myapp/globals/relatorioColaborador.html')
+    colaboradores = Colaborador.objects.all()
+    emprestimo = Emprestimo.objects.all()
+
+    if request.method == 'POST':
+        colaborador = Colaborador.objects.get(nome=request.POST.get('colaborador'))
+        print(colaborador)
+        return render(request, 'myapp/globals/relatorioColaborador.html', {"emprestimo":emprestimo, "colaboradores":colaboradores, "colaborador":colaborador})
+    return render(request, 'myapp/globals/relatorioColaborador.html', {"emprestimo":emprestimo, "colaboradores":colaboradores})
 
 def colaboradorAtualizar(request):
     colaborador = Colaborador.objects.all()

@@ -8,8 +8,14 @@
         <div class="card my_class" style="max-width: 500px; margin: auto;">
             <form method="post">
                 {% csrf_token %}
-                <label for="Colaborador">Equipamento</label>
-                <input class="form-control" type="str" name="equipamento" placeholder="Equipamento">
+                <label for="EPI">Equipameto</label>
+                <div class="form-group">
+                    <select class="form-control" name="equipamento">
+                        {% for epi in epis %}
+                        <option value="{{ epi }}">{{ epi }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
                 <label for="Colaborador">Colaborador</label>
                 <div class="form-group">
                     <select class="form-control" name="colaborador">
@@ -23,7 +29,6 @@
                 <input class="form-control" type="date" name="data_emprestimo" placeholder="Data Emprestimo">
                 <label for="data_prevista">Data prevista devolução</label>
                 <input class="form-control" type="date" name="data_prevista" placeholder="Data Prevista Devolução">
-                
                 <label for="status">Status</label>
                 <div class="form-group">
                     <select class="form-control" name="status">    
@@ -41,10 +46,6 @@
                 <input class="form-control" type="date" name="data_devolucao" placeholder="Data Devolução">
                 <label for="Observação">Observação</label>
                 <input class="form-control" type="text" name="observacao" placeholder="Observação">
-                
-                
-                
-                
                 
                 <input class="btn btn-success" type="submit" value="enviar">
             </form>
