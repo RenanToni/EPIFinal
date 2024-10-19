@@ -1,0 +1,34 @@
+.my_class {
+    -webkit-box-shadow: 10px 10px 16px 0px rgba(57,57,245,1);
+    -moz-box-shadow: 10px 10px 16px 0px rgba(57,57,245,1);
+    box-shadow: 10px 10px 16px 0px rgba(57,57,245,1);
+}
+
+/* Esconde os botões por padrão */
+.hidden-buttons {
+    display: none;
+    position: absolute;
+    top: 110%; /* Posição logo abaixo do container */
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+/* Mostra os botões quando o mouse passa sobre o container */
+.navbar-brand:hover .hidden-buttons {
+    display: block;
+}
+
+/* Estilo dos botões */
+.hidden-buttons button {
+    margin: 5px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.hidden-buttons button:hover {
+    background-color: #45a049;
+}

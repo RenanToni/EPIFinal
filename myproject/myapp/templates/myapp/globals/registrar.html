@@ -1,0 +1,54 @@
+{% extends "myapp/index.html" %}
+
+{% block title %}Listar Colaboradores{% endblock title %}
+
+{% block content %}
+<div class="container justify-content-center mt-4">
+    <div class="card-body">
+        <div class="card my_class" style="max-width: 500px; margin: auto;">
+            <form method="post">
+                {% csrf_token %}
+                <label for="Colaborador">Equipamento</label>
+                <input class="form-control" type="str" name="equipamento" placeholder="Equipamento">
+                <label for="Colaborador">Colaborador</label>
+                <div class="form-group">
+                    <select class="form-control" name="colaborador">
+                        {% for colaborador in colaboradores %}
+                        <option value="{{ colaborador }}">{{ colaborador }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <label for="data_emprestimo">Data Emprestimo</label>
+                <input class="form-control" type="date" name="data_emprestimo" placeholder="Data Emprestimo">
+                <label for="data_prevista">Data prevista devolução</label>
+                <input class="form-control" type="date" name="data_prevista" placeholder="Data Prevista Devolução">
+                
+                <label for="status">Status</label>
+                <div class="form-group">
+                    <select class="form-control" name="status">    
+                        <option value="emprestado" selected>Emprestado</option>
+                        <option value="em uso">Em uso</option>
+                        <option value="fornecido">fornecido</option>
+                        <option value="devolvido">devolvido</option>
+                        <option value="danificado">danificado</option>
+                        <option value="perdido">perdido</option>
+                    </select>
+                </div>
+                <label for="condicoes_equipamento">Condições do equipamento</label>
+                <input class="form-control" type="text" name="condicoes_equipamento" placeholder="Condições do equipamento">
+                <label for="Data_devolucao">Data Devolução</label>
+                <input class="form-control" type="date" name="data_devolucao" placeholder="Data Devolução">
+                <label for="Observação">Observação</label>
+                <input class="form-control" type="text" name="observacao" placeholder="Observação">
+                
+                
+                
+                
+                
+                <input class="btn btn-success" type="submit" value="enviar">
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock content %}

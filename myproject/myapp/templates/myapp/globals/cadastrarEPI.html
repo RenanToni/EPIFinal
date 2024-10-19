@@ -1,0 +1,22 @@
+{% extends "myapp/index.html" %}
+
+{% block title %}Cadastrar EPI{% endblock title %}
+
+{%block content %}
+    <h1 class="text-center">Cadastro de EPI</h1> 
+    <div class="container justify-content-center mt-4">
+        <div class="card my_class jus" style="max-width: 1000px; margin: auto;">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <label for="nome">Nome do EPI</label>
+                    <input class="form-control" type="str" name="nome" placeholder="Nome EPI">
+                    <label for="descricao">Descricão</label>
+                    <input class="form-control" type="str" name="descricao" placeholder="Descricão">
+                    <label for="prazo_dias">Prazo em dias</label>
+                    <input class="form-control" type="int" name="prazo_dias" placeholder="Prazo em dias">
+                    <input class="btn btn-success" type="submit" value="enviar">
+                </form>
+        </div>
+        
+{% endblock content %}

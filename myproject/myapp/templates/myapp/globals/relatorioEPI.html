@@ -1,0 +1,61 @@
+{% extends "myapp/index.html" %}
+
+{% block title %}Listar Colaboradores{% endblock title %}
+
+
+{% block content %}
+<head></head>
+  <title>Relatorio EPI's</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-3">
+  {%if EPI%}
+    <table class="table">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>equipamento</th>
+          <th>colaborador</th>
+          <th>data emprestimo</th>
+          <th>data prevista devolução</th>
+          <th>Status</th>
+          <th>condicoes equipamento</th>
+          <th>data de devolução</th>
+          <th>Observação</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%for epis in EPI%}  
+          <tr>
+          <td>{{epis.id}}</td>
+          <td>{{epis.equipamento}}</td>
+          <td>{{epis.colaborador}}</td>
+          <td>{{epis.data_emprestimo}}</td>
+          <td>{{epis.data_prevista_devolução}}</td>
+          <td>{{epis.status}}</td>
+          <td>{{epis.condicoes_equipamento}}</td>
+          <td>{{epis.data_devolução}}</td>
+          <td>{{epis.observação}}</td>
+          <td>
+            <a class = "btn btn-danger" href="/deletarEPI/{{epis.id}}">Deletar</a>
+            <a class = "btn btn-warning" href="/atualizarEPI/{{epis.id}}">Atualizar</a>
+          </td>
+          </tr>
+        {%endfor%}
+        </table>
+      </tbody>
+    </table>
+    {%else%}
+      <p><h3>Não existem emprestimos cadastrados</h3></p>
+    {%endif%}
+
+
+</div>
+
+{% endblock content %}

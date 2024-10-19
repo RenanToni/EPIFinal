@@ -1,0 +1,25 @@
+{% extends "myapp/index.html" %}
+
+{% block title %}Atualizar Colaborador{% endblock title %}
+
+{% block content %}
+<div class="container justify-content-center mt-4">
+    <div class="card my_class" style="max-width: 500px; margin: auto;">
+        <div class="card-header" >
+            <h1>Atualizar Colaborador</h1>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <label for="nome">Nome do Colaborador</label>
+                <input class="form-control" type="str" name="nome" placeholder="Nome Colaborador">
+                <label for="cpf">CPF</label>
+                <input class="form-control" type="str" name="cpf" placeholder="CPF">
+                <label for="telefone">Telefone</label>
+                <input class="form-control" type="str" name="telefone" placeholder="Telefone">
+                <input class="btn btn-success" type="submit" value="enviar">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
