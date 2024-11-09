@@ -96,7 +96,6 @@ def registrar(request):
         
         
         if equipamento and colaborador and data_emprestimo and data_prevista and status and condicoes and data_devolucao and observacao:
-            print("aobamein")
             Emprestimo.objects.create(
                 id_EPIgenerico_fk = equipamento,
                 nome = colaborador,
@@ -122,9 +121,9 @@ def relatorioEPI(request):
         colaborador = get_object_or_404(Colaborador, id=colaborador_id)
         print(colaborador_id,"do colaborador")
         epi_id = request.POST.get('equipamento')
-        print(epi_id)
+
         epi = get_object_or_404(EPIgenerico, id=epi_id)
-        print(epi)
+        print(epi_id,"do epi")
         status = request.POST.get('status')
         return render(request, 'myapp/globals/relatorioEPI.html', {"emprestimo":emprestimo, "colaboradores":coladores, "epis":epis, "colaborador":colaborador, "epi":epi, "status":status})
 
@@ -157,3 +156,34 @@ def deletarEPI(request, id):
     epis = EPIgenerico.objects.get(id=id)
     epis.delete()
     return redirect('/')
+
+def atualizarRegistro(request, id):
+    emprestimo = Emprestimo.objects.get(id=id)
+    colaboradores = Colaborador.objects.all()
+    epis = EPIgenerico.objects.all()
+    
+    if request.method == 'POST':
+         
+        epi_id = request.POST.get('equipamento')
+        print(epi_id)
+        equipamento = epis.get(id=epi_id)
+        print(equipamento)
+        colaborador = request.POST.get('colaborador')
+        data_emprestimo = request.POST.get('data_emprestimo')
+        data_prevista = request.POST.get('data_prevista')
+        status = request.POST.get('status')
+        condicoes = request.POST.get('condicoes_equipamento')
+        data_devolucao = request.POST.get('data_devolucao')
+        observacao = request.POST.get('observacao')
+        if (equipamento and colaborador and data_emprestimo and data_prevista and status and condicoes and data_devolucao and observacao):
+            emprestimo.id_EPIgenerico_fk = equipamento
+            emprestimo.nome = colaborador
+            emprestimo.data_emprestimo = data_emprestimo
+            emprestimo.data_prevista = data_prevista
+            emprestimo.status = status
+            emprestimo.condicoes = condicoes
+            emprestimo.data_devolucao = data_devolucao
+            emprestimo.motivo_devolucao = observacao
+            emprestimo.save()
+        return redirect('/')
+    return render(request, 'myapp/globals/atualizarRegistro.html', {"emprestimo":emprestimo, "colaboradores":colaboradores, "epis":epis})

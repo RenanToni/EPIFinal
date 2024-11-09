@@ -31,5 +31,6 @@ urlpatterns = [
     path('EPIatualizar', views.EPIatualizar),
     path('deletarEPI/<int:id>', views.deletarEPI),
     path('deletarColaborador/<int:id>', views.deletarColaborador),
+    path('atualizarRegistro/<int:id>', views.atualizarRegistro),
 
 ]
