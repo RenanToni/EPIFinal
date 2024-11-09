@@ -87,7 +87,7 @@ def registrar(request):
         status = request.POST.get('status')
         condicoes = request.POST.get('condicoes_equipamento')
         data_devolucao = request.POST.get('data_devolucao')
-        observacao = request.POST.get('motivo_devolucao')
+        observacao = request.POST.get('observacao')
 
         print(equipamento, colaborador, data_emprestimo, data_prevista, status, condicoes, data_devolucao, observacao)
     
@@ -95,15 +95,16 @@ def registrar(request):
         
         
         if equipamento and colaborador and data_emprestimo and data_prevista and status and condicoes and data_devolucao and observacao:
+            print("aobamein")
             Emprestimo.objects.create(
-                id_EPIgenerico_fk = equipamento.id,
-                id_colaborador_fk = colaborador.id,
+                id_EPIgenerico_fk = equipamento,
+                nome = colaborador,
                 data_emprestimo = data_emprestimo,
-                data_prevista_devolução = data_prevista,
+                data_prevista = data_prevista,
                 status = status,
                 condicoes = condicoes,
-                data_devolução = data_devolucao,
-                motivo_devolução = observacao
+                data_devolucao = data_devolucao,
+                motivo_devolucao = observacao
             )
         
 
