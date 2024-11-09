@@ -117,12 +117,14 @@ def relatorioEPI(request):
     epis = EPIgenerico.objects.all()
     emprestimo = Emprestimo.objects.all()
     if request.method == 'POST':
-
+        
         colaborador_id = request.POST.get('colaborador')
         colaborador = get_object_or_404(Colaborador, id=colaborador_id)
-        
-        epi_id = request.POST.get('epi')
+        print(colaborador_id,"do colaborador")
+        epi_id = request.POST.get('equipamento')
+        print(epi_id)
         epi = get_object_or_404(EPIgenerico, id=epi_id)
+        print(epi)
         status = request.POST.get('status')
         return render(request, 'myapp/globals/relatorioEPI.html', {"emprestimo":emprestimo, "colaboradores":coladores, "epis":epis, "colaborador":colaborador, "epi":epi, "status":status})
 
