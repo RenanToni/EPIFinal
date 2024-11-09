@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <select class="form-control" name="equipamento">
                       {% for epi in epis %}
-                      <option value="{{ epi }}">{{ epi }}</option>
+                      <option value="{{ epi.id }}">{{ epi.nome }}</option>
                       {% endfor %}
                     </select>
                 </div>
@@ -30,7 +30,7 @@
                 <div class="form-group">
                     <select class="form-control" name="colaborador">
                       {% for colaborador in colaboradores %}
-                      <option value="{{ colaborador }}">{{ colaborador }}</option>
+                        <option value="{{ colaborador.id }}">{{ colaborador.nome }}</option>
                       {% endfor %}
                     </select>
                 </div>

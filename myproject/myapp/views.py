@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from myapp.models import Colaborador,EPIgenerico, Emprestimo
+from django.shortcuts import render, get_object_or_404
 
 
 
@@ -115,12 +116,13 @@ def relatorioEPI(request):
     coladores = Colaborador.objects.all()
     epis = EPIgenerico.objects.all()
     emprestimo = Emprestimo.objects.all()
-
-    print (coladores, epis, emprestimo)
-
     if request.method == 'POST':
-        colaborador = Colaborador.objects.get(id=request.POST.get('colaborador'))
-        epi = EPIgenerico.objects.get(id=request.POST.get('epi'))
+
+        colaborador_id = request.POST.get('colaborador')
+        colaborador = get_object_or_404(Colaborador, id=colaborador_id)
+        
+        epi_id = request.POST.get('epi')
+        epi = get_object_or_404(EPIgenerico, id=epi_id)
         status = request.POST.get('status')
         return render(request, 'myapp/globals/relatorioEPI.html', {"emprestimo":emprestimo, "colaboradores":coladores, "epis":epis, "colaborador":colaborador, "epi":epi, "status":status})
 

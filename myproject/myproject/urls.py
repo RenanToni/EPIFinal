@@ -25,7 +25,7 @@ urlpatterns = [
     path('cadastrarColaborador/', views.cadastrarColaborador),
     path('atualizarColaborador/<int:id>', views.atualizarColaborador),
     path('registrar/', views.registrar),
-    path('relatoriosEPI/', views.relatorioEPI),
+    path('relatorioEPI/', views.relatorioEPI),
     path('relatoriosColaborador/', views.relatorioColaborador),
     path('colaboradorAtualizar', views.colaboradorAtualizar),
     path('EPIatualizar', views.EPIatualizar),
